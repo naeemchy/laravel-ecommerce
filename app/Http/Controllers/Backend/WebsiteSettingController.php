@@ -6,10 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\setting\WebsiteSetting;
 use App\Models\Site_setting;
 use Brian2694\Toastr\Facades\Toastr;
-use Carbon\Carbon;
-use DB;
-use Illuminate\Support\Facades\Storage;
-use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\File;
 
 class WebsiteSettingController extends Controller
 {
@@ -20,43 +17,31 @@ class WebsiteSettingController extends Controller
 
     public function index()
     {
-        $setting = DB::table('site_settings')->first();
+        $setting = Site_setting::first();
 
         return view('Backend.dashboard.site_setting.site_setting', compact('setting'));
     }
 
     public function updateWebsiteSetting(WebsiteSetting $request)
     {
-        $logo = $request->file('logo');
-        $user = Site_setting::findOrFail(1);
+        $setting = Site_setting::findOrFail(1);
+        $setting->update($request->except('logo'));
+        
+        if ($request->hasFile('logo')) {
+            $path = $setting->logo;
 
-        if (isset($logo)) {
-            if (Storage::disk('public')->exists('logo/' . $user->logo)) {
-                Storage::disk('public')->delete('logo/' . $user->logo);
+            if(File::exists($path)) {
+                File::delete($path);
             }
 
-            $currentDate = Carbon::now()->toDateString();
-            $imageName = $currentDate . '-' . uniqid() . '.' . $logo->getClientOriginalExtension();
-            if (!Storage::disk('public')->exists('logo')) {
-                Storage::disk('public')->makeDirectory('logo');
-            }
-            Image::make($logo)->resize(500, 500)->save('storage/logo/' . $imageName);
-            $user->logo = 'storage/logo/' . $imageName;
-        } else {
-            $imageName = $user->logo;
+            $file = $request->file('logo');
+            $extension = $file->getClientOriginalExtension();
+            $filename = time(). '.' .$extension;
+            $file->move('backend/images/uploads', $filename);
+            $setting->logo = 'backend/images/uploads/' . $filename;
+            $setting->update(array('logo' => $setting->logo));
         }
 
-        $user->email_one = $request->email_one;
-        $user->email_two = $request->email_two;
-        $user->phone_one = $request->phone_one;
-        $user->phone_two = $request->phone_two;
-        $user->address_one = $request->address_one;
-        $user->address_two = $request->address_two;
-        $user->city = $request->city;
-        $user->country = $request->country;
-        $user->logo = $imageName;
-        $user->about = $request->about;
-        $user->save();
         Toastr::success('Website Setting Successfully Updated :)', 'Success');
         return redirect()->back();
     }

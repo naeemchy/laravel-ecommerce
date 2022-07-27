@@ -43,12 +43,6 @@
                                                     <li><a href="checkout.html">Checkout</a></li>
                                                 </ul>
                                             </li>
-                                            <li><a href="#">Blog<i class="ti-angle-down"></i></a>
-                                                <ul class="dropdown">
-                                                    <li><a href="blog-single-sidebar.html">Blog Single Sidebar</a></li>
-                                                </ul>
-                                            </li>
-                                            <li><a href="contact.html">Contact Us</a></li>
                                         </ul>
                                     </div>
                                 </div>

@@ -152,7 +152,7 @@
                                                 <div class="image">
                                                     @if($setting->logo == 'default.png')
                                                     @else
-                                                        <img src="{{ asset('storage/logo/'.$setting->logo)}}" width="48" height="48" alt="Profile Image">
+                                                        <img src="{{ asset($setting->logo)}}" width="48" height="48" alt="Profile Image">
                                                     @endif
                                                     <div id="abc" style="display: none">
                                                         <img src="#" id="one">

@@ -23,7 +23,6 @@
                     <div class="right-content">
                         <ul class="list-main">
                             <li><i class="ti-location-pin"></i>{{ $setting->city }}</li>
-                            <li><i class="ti-alarm-clock"></i> <a href="#">Daily deal</a></li>
                             @guest
                                 <li><i class="ti-power-off"></i><a href="{{ route('login') }}">Login</a></li>
                             @else
@@ -54,7 +53,7 @@
                     <div class="">
                         @if($setting->logo == 'default.png')
                             <div class="logo">
-                                <a href="{{ route('user.dashboard') }}"><img src="{{ asset('frontend/images/logo2.png') }}" alt="#"></a>
+                                <a href="{{ route('user.dashboard') }}"><img src="{{ asset('frontend/images/logo.png') }}" alt="#"></a>
                             </div>
                         @else
                         <div class="logo">
@@ -81,12 +80,6 @@
                 <div class="col-lg-8 col-md-7 col-12">
                     <div class="search-bar-top">
                         <div class="search-bar">
-                            <select>
-                                <option selected="selected">All Category</option>
-                                <option>watch</option>
-                                <option>mobile</option>
-                                <option>kid’s item</option>
-                            </select>
                             <form>
                                 <input name="search" placeholder="Search Products Here....." type="search">
                                 <button class="btnn"><i class="ti-search"></i></button>
@@ -97,9 +90,7 @@
                 <div class="col-lg-2 col-md-3 col-12">
                     <div class="right-bar">
                         <!-- Search Form -->
-                        <div class="sinlge-bar">
-                            <a href="#" class="single-icon"><i class="fa fa-heart-o" aria-hidden="true"></i></a>
-                        </div>
+                        
                         <div class="sinlge-bar shopping">
                             <a href="#" class="single-icon"><i class="ti-bag"></i> <span
                                     class="total-count">{{ $total }}</span></a>
